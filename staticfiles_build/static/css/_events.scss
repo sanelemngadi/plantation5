@@ -1,0 +1,84 @@
+.plantation-events {
+    height: 500px;
+    // box-shadow: 0px 2px 16px rgba(0,0,0,0.1);
+    // background-color: #fff;
+    border-radius: .5rem;
+    padding: 1rem;
+
+    .plantation-event_heading {
+        margin-bottom: 1rem;
+    }
+
+    .plantation-event_wrapper {
+
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+
+        @media screen and (min-width: 615px) {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @media screen and (min-width: 1100px) {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+}
+
+.plantation-events_card {
+    max-width: 470px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    border: 1px solid rgba(0,0,0,0.25);
+    max-height: 160px;
+    padding: .5rem;
+    border-radius: .5rem;
+    min-width: 260px;
+    font-size: 12px;
+    // background-color: #fff;
+
+    &:hover {
+        box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .plantation-image {
+        flex: 1;
+
+        .plantation-calender {
+            width: 78px;
+            height: 78px;
+            border-radius: 0.5rem;
+            border: 1px solid #2C7BE5;
+            overflow: hidden;
+
+            display: flex;
+            flex-direction: column;
+
+            .plantation-date {
+                flex: 2;
+                color: #5E6E82;
+                background-color: #EDF2F9;
+                font-size: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
+            }
+
+            .plantation-month {
+                background-color: #2C7BE5;
+                color: #fff;
+                font-size: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+
+    .plantation-info {
+        flex: 3;
+    }
+}

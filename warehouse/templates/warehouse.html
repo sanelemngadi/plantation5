@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    
+    {% if not products %}
+        <h3>There are no product to pack in the warehouse</h3>
+
+        {% else %}
+        <form action="." method="post" style="max-width: 576px; margin: 1rem 0;">
+            {% csrf_token %}
+            <h2 class="plantation-service_heading">Stock Storage</h2>
+            <br><br>
+        
+            
+            <span style="color: red !important; font-size: 10px; display: block;">{{ form.product.errors }}</span>  
+            <span style="color: red !important; font-size: 10px; display: block;">{{ form.row.errors }}</span>
+            <span style="color: red !important; font-size: 10px; display: block;">{{ form.shelf.errors }}</span>
+            <div class="form-group">
+                    <div class="form-control">
+                        {{ form.product.label_tag }}
+                        {{ form.product }}
+                    </div>
+                    <div class="form-control">
+                        {{ form.row.label_tag }}
+                        {{ form.row }}
+                    </div>
+                    <div class="form-control">
+                        {{ form.shelf.label_tag }}
+                        {{ form.shelf }}
+                    </div>
+                    <div class="form-" style="align-self: flex-end;">
+                        <input type="submit" value="Pack Item" class="btn btn-tertiary">
+                    </div>
+                </div>
+                
+            </form>
+            <br><br><br>
+
+            <div class="plantation-table" style="width: 100%;">
+                <table>
+                    <tr>
+                        <th>Product</th> 
+                        <th>Quantity</th>
+                        <th>Date</th>
+                        <th>Row</th>
+                        <th>Shelf</th>
+                    </tr>
+                    
+                    {% for item in items %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.product.quantity }} </td>
+                            <td>{{ item.date }} </td>
+                            <td>{{ item.row }} </td>
+                            <td>{{ item.shelf }} </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+    {% endif %}
+    
+    
+</div>
+
+{% endblock content %}

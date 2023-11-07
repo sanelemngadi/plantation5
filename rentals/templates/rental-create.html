@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+    <div class="plantation-events">
+        <h2 class="plantation-event_heading">New Rental</h2>
+        <div class="plantation-product_detail" style="display: flex; max-width: 560px;">
+            <div style="min-height: 256px; flex: 1;">
+                <div class="plantation-product_image" style="max-width: 250px; width: 100%; height: 100%; overflow: hidden; max-height: 100%;">
+                    {% if product.image.url %}
+                        <img src="{{ product.image.url }}" width="450" style="width: 100%; height: 100%; object-fit: cover;" alt="Image">
+                    {% endif %}
+                </div>
+            </div>
+            <div style="overflow: auto; flex: 1;">
+                <h2 class="plantation-service_heading">{{ product.name }}</h2>
+                <p class="plantation-service_description">{{ product.description }}</p>   
+    
+            </div>
+    
+        </div>
+        <br>
+        <hr>
+        <br>
+        <form action="." method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="form-control">
+                    {{ form.date_from.errors }}
+                    {{ form.date_from.label_tag }}
+                    {{ form.date_from }}
+                </div>
+
+                <div class="form-control">
+                    {{ form.date_to.errors }}
+                    {{ form.date_to.label_tag }}
+                    {{ form.date_to }}
+                </div>
+            </div>
+            <br>
+            <div class="form-control">
+                {{ form.reason.errors }}
+                {{ form.reason.label_tag }}
+                {{ form.reason }}
+            </div>
+            <br>
+            <input type="submit" value="Request for Rental" class="btn btn-tertiary">
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}    
+    <h2 class="plantation-service_heading">Remove Stock</h2>
+    <br><br>
+    <h4 style="color: red;">Are you sure you want to remove {{ stock.product.quantity }} stocks from <b style="color: black; text-decoration: underline;">{{ stock.product.name }}</b> from your list?</h4>
+    <br>
+    <br>
+    <h1>Please note that this will also remove the quantity of items added with this stock which are: {{ stock.product.quantity }} items</h1>
+    <br><br>
+    <form action="." method="post">
+        {% csrf_token %}
+        <a href="{% url 'inventory' %}#storage" class="btn btn-secondary">No take me back</a>
+        <button type="submit" class="btn btn-outline-danger">Yes remove</button>
+    </form>
+{% endblock %}

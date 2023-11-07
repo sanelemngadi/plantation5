@@ -1,0 +1,48 @@
+<h3>Stocking</h3>
+<div class="plantation-items_wrapper">
+
+    <br>
+    <form action="." method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <div class="form-control">
+                {{ form.product.errors }}
+                {{ form.product.label_tag }}
+                {{ form.product }}
+            </div>
+            <div class="form-control">
+                {{ form.quantity.errors }}
+                {{ form.quantity.label_tag }}
+                {{ form.quantity }}
+            </div>
+            <div class="form-control" style="justify-content: flex-end;">
+                <input type="submit" class="btn btn-outline-tertiary" style="margin-bottom: 0; justify-content: center;" value="Add Stock">
+            </div>
+        </div>
+    </form>
+    <br>
+
+    <div class="plantation-table" style="width: 100%;">
+        <table>
+            <tr>
+                <th>Product</th> 
+                <th>Supplier</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+            </tr>
+            
+            {% for stock in products %}
+                <tr>
+                    <td>{{ stock.product.name }}</td>
+                    <td>{{ stock.product.supplier }}</td>
+                    <td>{{ stock.date }}</td>
+                    <td>R{{ stock.product.price }} </td>
+                    <td>{{ stock.quantity }} </td>
+                    <td>R{{ stock.product.get_total_price }} </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    </div>

@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {% comment %} <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet"> {% endcomment %}
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Good luck guys" />
+    <meta property="og:image" content="{% static 'images/qr_code.png' %}" />
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:title" content="Page Title" />
+    <meta name="twitter:image" content="{% static 'images/qr_code.png' %}" />
+
+
+        <!-- Open Graph tags for WhatsApp link preview -->
+    <meta property="og:title" content="Good luck guys" />
+    <meta property="og:description" content="Good luck guys" />
+    <meta property="og:image" content="{% static 'images/qr_code.png' %}" />
+    <meta property="og:url" content="https://www.example.com" />
+    <meta property="og:type" content="website" />
+
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <title>Plantation System</title>
+</head>
+<body>
+    <main>
+        <div class="plantation-container">
+            <header class="plantation-header">
+                {% include "header.html" %}
+            </header>
+            <div class="plantation-wrapper">
+                {% include "side.panel.html" %}
+                <div class="plantation-canvas">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

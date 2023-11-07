@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="plantation-image-info">
+        <div class="image" style="flex: 2;" >
+            
+            <form action="." method="post" id="checkout" style="background-color: white; padding: 1rem; border-radius: .5rem; border: 1px solid #5E6E82;">
+                <h2>Shipping Information</h2>
+    
+                <br>
+                {% csrf_token %}
+                <div>
+                    <h3>Shipping Address</h3>
+                    {% comment %} {{ address_form.as_p }} {% endcomment %}
+                    <div class="form-group">
+                        <div class="form-control">
+                            {{ address_form.street_number.errors }}
+                            {{ address_form.street_number.label_tag }}
+                            {{ address_form.street_number }}
+                        </div>
+                        <div class="form-control">
+                            {{ address_form.street_name.errors }}
+                            {{ address_form.street_name.label_tag }}
+                            {{ address_form.street_name }}
+                        </div>
+                        <div class="form-control">
+                            {{ address_form.street_type.errors }}
+                            {{ address_form.street_type.label_tag }}
+                            {{ address_form.street_type }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-control">
+                            {{ address_form.country.errors }}
+                            {{ address_form.country.label_tag }}
+                            {{ address_form.country }}
+                        </div>
+                        <div class="form-control">
+                            {{ address_form.province.errors }}
+                            {{ address_form.province.label_tag }}
+                            {{ address_form.province }}
+                        </div>
+                        <div class="form-control">
+                            {{ address_form.town.errors }}
+                            {{ address_form.town.label_tag }}
+                            {{ address_form.town }}
+                        </div>
+                    </div>
+                    <div class="form-control">
+                        {{ address_form.zip_code.errors }}
+                        {{ address_form.zip_code.label_tag }}
+                        {{ address_form.zip_code }}
+                    </div>
+
+                </div>
+                 
+                 <br><hr><br>
+                 {% comment %} {{ order_form.as_p }} {% endcomment %}
+
+                 <div>
+                    {% comment %} {{ order_form.as_p }} {% endcomment %}
+                    <h3>Contact Information</h3>
+                    <div class="form-group">
+                        <div class="form-control">
+                            {{ order_form.email.errors }}
+                            {{ order_form.email.label_tag }}
+                            {{ order_form.email }}
+                        </div>
+                        <div class="form-control">
+                            {{ order_form.cellphone.errors }}
+                            {{ order_form.cellphone.label_tag }}
+                            {{ order_form.cellphone }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-control">
+                            {{ order_form.delivery_option.errors }}
+                            {{ order_form.delivery_option.label_tag }}
+                            {{ order_form.delivery_option }}
+                        </div>
+                        <div class="form-control">
+                            {{ order_form.payment_option.errors }}
+                            {{ order_form.payment_option.label_tag }}
+                            {{ order_form.payment_option }}
+                        </div>
+                    </div>
+                 </div>
+                 {% comment %} <br><hr><br> {% endcomment %}
+                <div class="form-control">
+                    
+                </div>
+
+                <br>
+            </form>
+        </div>
+        <div class="info">
+
+            <div class="plantation-checkout_summary" style="background-color: white; padding: 1rem;">
+                <h3>Order Summary</h3>
+                <br>
+                {{ cart.get_total_items }} item(s) in cart:
+                <hr>
+                <br>
+                <div class="prices">
+                    <h4>Subtotal: <span>{{ cart.get_total_price }}</span> </h4>
+                    <p>Sale discount: <span>-{{ cart.get_total_discount }}</span></p>
+
+                    <br>
+                    <hr>
+                    <h3>Net order subtotal: <span>{{ cart.get_net_total }}</span></h3>
+                    <p>Shipping: <span> {{ cart.get_delivery_price }}</span></p>
+                    <p>Tax: <span style="color: red;"> {{ cart.get_total_tax }}</span></p>
+                    <br>
+                    <hr>
+                    <h3>Grand total: <span>{{ cart.get_grand_total }}</span></h3>
+                </div>
+                <br>
+                <hr>
+                <br>
+                <button class="btn btn-outline-tertiary btn-full" type="submit" form="checkout">Proceed with order</button>
+            </div>
+        </div>
+
+        
+    </div>
+{% endblock content %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-contained">
+    <h2>Register</h2>
+<br>
+    <h2><a href="{% url 'supplier-register' %}" class="plantation-link">Register as a Supplier</a></h2>
+    <br>
+    <form {% if as_admin %}action="/users/register/?as_admin=me/"{% else %}action="."{% endif %} method="post" >
+        {% csrf_token %}
+        {{ form.none_field_errors }}
+        {% if as_admin %}
+        
+        <div>
+            <div class="form-control">
+                {{ form.as_admin.errors }}
+                {{ form.as_admin.label_tag }}
+                {{ form.as_admin }}
+            </div>
+        </div>
+        {% endif %}
+        <div class="form-control">
+            {{ form.email.errors }}
+            {{ form.email.label_tag }}
+            {{ form.email }}
+        </div>
+        
+        <br>
+        <div class="form-group">
+            <div class="form-control">
+                {{ form.first_name.errors }}
+                {{ form.first_name.label_tag }}
+                {{ form.first_name }}
+            </div>
+            <div class="form-control">
+                {{ form.last_name.errors }}
+                {{ form.last_name.label_tag }}
+                {{ form.last_name }}
+            </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <div class="form-control">
+                {{ form.password1.errors }}
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+            </div>
+            <div class="form-control">
+                {{ form.password2.errors }}
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+            </div>
+        </div>
+        <br>
+        <input type="submit" value="Register" class="btn btn-outline-tertiary btn-full">
+        <br>
+        <p>Have an account? <a href="{% url 'login' %}" style="color: blue; text-decoration: underline;">login now</a></p>
+    </form>
+</div>
+{% endblock %}

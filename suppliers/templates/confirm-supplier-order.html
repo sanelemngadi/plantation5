@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}    
+    <h2 class="plantation-service_heading">Confirm Order</h2>
+    <br><br>
+    <h4 style="color: red;">Are you sure you want to place the foolowing order to <b style="color: black; text-decoration: underline;">{{ supplier.company_name }}</b> Supplier?</h4>
+    <br>
+    <br>
+          
+    <div class="plantation-items_wrapper">
+
+        <div class="plantation-table" style="width: 100%;">
+            <br>
+            <h2>Placed orders</h2>
+            <br>
+            <table>
+                <tr>
+                    <th>Product</th> 
+                    <th>Supplier</th>
+                    <th>Amount</th>
+                    <th>Quantity</th>
+                </tr>
+                
+                {% for item in order.items.all %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ supplier }}</td>
+                        <td>R{{ item.price }} </td>
+                        <td>{{ item.quantity }}</td>
+                    </tr>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <br>
+        <a href="{% url 'supplier-order-sent' order.pk %}" class="btn btn-outline-secondary">Confirm order</a>
+        <br>
+    </div>
+</div>
+
+{% endblock %}

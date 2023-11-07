@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Notification order</h2>
+<br>
+{% if bought_vip %}
+    You bought VIP Ticket that costs: R <b>{{ notification.event.vip_price }}</b>
+    {% else %}
+    You bought General Ticket that costs: R <b>{{ notification.event.general_price }}</b>
+{% endif %}
+
+<br><br>
+<a href="{% url 'pay-order' notification.pk %}" class="btn btn-outline-tertiary">Confirm and pay</a>
+{% endblock content %}

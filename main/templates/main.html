@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>WELCOME TO PLANTATION MANAGEMENT</h2>
+
+    {% if not products %}
+    <p>All available products will be shown here</p>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <div class="plantation-card_wrapper">
+
+        {% if user.is_admin or user.is_superuser %}
+            <div class="plantation-card">
+                <div class="plantation-info">
+                    <h3>Total Products</h3>
+                    <h1>{{ products.count }}</h1>
+                </div>
+            </div>
+
+            <div class="plantation-card">
+                <div class="plantation-info">
+                    <h3>Total Stocks</h3>
+                    <h1>{{ total_stocks }}</h1>
+                </div>
+            </div>
+
+            <div class="plantation-card">
+                <div class="plantation-info">
+                    <h3>Total Suppliers</h3>
+                    <h1>{{ suppliers }}</h1>
+                </div>
+            </div>
+
+            <div class="plantation-card">
+                <div class="plantation-info">
+                    <h3>Total Appointments</h3>
+                    <h1>{{ appointments }}</h1>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if user.is_delivery_man or user.is_admin or user.is_superuser %}
+            <div class="plantation-card">
+                <div class="plantation-info">
+                    <h3>Total Settled deliveries</h3>
+                    <h1> {{ settled_deliveries }}</h1>
+                </div>
+            </div>
+
+            <div class="plantation-card">
+                <div class="plantation-info">
+                    <h3>Total Pending deliveries</h3>
+                    <h1>{{ not_settled_deliveries }}</h1>
+                </div>
+            </div>
+        
+        {% endif %}
+
+
+        {% if user.is_general %}
+            {% for product in products %}
+                    <li>
+                        <div class="plantation-product_card">
+                            <a href="#">
+                                <div class="plantation-product_image" style="max-width: 100px; height: 100%; overflow: hidden; max-height: 100%;">
+                                    {% if product.image %}
+                                    <img src="{{ product.image.url }}" width="100px" style="width: 100%; height: 100%; object-fit: cover;" alt="Image">
+                                    {% endif %}
+                                </div>
+                            </a>
+                            <div class="plantation-product_info">
+                                <h2 class="plantation-product_name">
+                                    {{ product.name }}
+                                </h2>
+
+                                <p class="plantation-product-description" style="max-height: 50px; overflow: hidden;">
+                                    {{ product.description }}
+                                </p>
+
+                                <p>Price: {{ product.price }}</p>
+
+                                <a href="{% url 'add-to-cart' product.pk 'main:main' %}" class="btn btn-tertiary btn-sm">Add to cart</a>
+                                <a href="{% url 'new-rental' product.pk %}" class="btn btn-secondary btn-sm">Rent Item</a>
+                                <a href="{% url 'product-detail' product.pk %}" class="btn btn-secondary btn-sm">More...</a>
+                            
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+        
+        {% endif %}
+    {% endif %}
+    </div>
+{% endblock %}
+

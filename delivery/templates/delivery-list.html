@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Manage Deliveries</h2>
+    <br>
+    <div class="plantation-table" style="width: 100%;">
+        <table>
+            <tr>
+                <th></th> 
+                <th>Order number &amp;OTP</th>
+                <th>Client name</th>
+                <th>Address</th>
+                <th>Date</th>
+                <th>Payment opt</th>
+                <th>Delivered</th>
+            </tr>
+            
+            {% for delivery in user.deliveries.all %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ delivery.order_number }} &amp; OTP ({{ delivery.otp }})</td>
+                    <td>{{ delivery.client.get_name }}</td>
+                    <td> {{ delivery.address.get_street }}</td>
+                    <td>{{ delivery.date_created }}</td>
+                    <td>{% if order.payment_option == "C" %}Cash {% else %} Online {% endif %}</td>
+                    <td>
+                        <form action="." method="post" style="display: flex; align-items: center;justify-content: space-around;">
+                            {% csrf_token %}
+
+                            
+                            {% if not delivery.settled %}
+                                <input type="hidden" name="delivery" value="{{ delivery.pk }}">
+                                <input type="submit" value="Submit" class="btn btn-outline-tertiary btn-sm">
+                                {% else %}
+                                    <input type="checkbox" name="settled" id="settled" {% if delivery.settled %}checked disabled{% endif %}>
+                            {% endif %}
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock content %}

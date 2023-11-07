@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="plantation-image-info">
+        <div class="image" style="flex: 2;" >
+            {% if user.is_general and order.paid %}
+                <a href="{% url 'item-invoice' order.pk %}" class="btn btn-tertiary">View Invoice</a>
+            {% endif %}
+            
+            {% if user.is_admin or user.is_superuser and not order.has_driver %}
+                <form action="." method="post" id="checkout" style="background-color: white; padding: 1rem; border-radius: .5rem; border: 1px solid #5E6E82;">
+                    {% csrf_token %}
+                    {% comment %} {{ delivery_form.as_p }} {% endcomment %}
+
+                    <div class="form-group">
+                        <div class="form-control">
+                            {{ delivery_form.driver.errors }}
+                            {{ delivery_form.driver.label_tag }}
+                            {{ delivery_form.driver}}
+                        </div>
+                        <div class="form-control">
+                        </div>
+                        <input type="submit" value="Assign driver" class="btn btn-tertiary">
+                    </div>
+                </form>
+            {% endif %}
+                <br>
+                <br>
+                <h2>Shipping Information</h2>
+                <br>
+                <hr>
+                <br>
+                <h4>Order number: {{ order.order_number }}</h4>
+                <br>
+                <hr>
+                <br>
+
+                {% if order.payment_option == "C" and not order.paid %}
+                <br>
+                    <h3 style="color: red;">
+                        Your payment option is CASH Payment, Please pay to delivery many: 
+                    </h3>
+
+                    <br>
+                {% endif %}
+    
+                <br>
+
+                <div>
+                    <h3>Shipping Address</h3>
+                    {% comment %} <br> {% endcomment %}
+                    <address>{{ order.address.street_number }} {{ order.address.street_name }} {{ order.address.street_type }},</address>
+                    <address>{{ order.address.town }}, {{ order.address.provice }}</address>
+                    <address>{{ order.address.zip_code }}</address>
+                    <address>{{ order.address.country }}</address>
+                </div>
+                 
+                 <br><hr><br>
+                 <div>
+                    <h3>Delivery Information</h3>
+                    {% comment %} <br> {% endcomment %}
+                    {% if order.payment_option == "C" %}
+                        When you pay with cash we deliver the order
+                    {% else %}
+                        {% if order.delivery_option == "D" %}
+                            Your delivery option is House Delivery
+
+                            {% else %}
+                            Your delivery option is Self collection
+                        {% endif %}
+                    {% endif %}
+
+                    {% comment %} {% if order.has_driver %}
+                        The driver was
+                    {% endif %} {% endcomment %}
+                 </div>
+                 <br><hr><br>
+
+                 <div>
+                    <h3>Contact Information</h3>
+                    <address>Tel: {{ order.cellphone }},</address>
+                        <address>Email: {{ order.email }}</address>
+                 </div>
+
+                 <br><hr><br>
+                 <div>
+                    <h3>Items Purchased</h3>
+                    <br>
+                    {% if order.items %}
+                    
+                        <div class="plantation-table" style="width: 100%;">
+                            <table>
+                                <tr>
+                                    <th></th> 
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Amount</th>
+                                    <th>Price</th>
+                                    <th></th>
+                                </tr>
+                                
+                                {% for item in order.items.all %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ item.name }}</td>
+                                        <td>{{ item.quantity }}</td>
+                                        <td>R{{ item.price }} </td>
+                                        <td>R{{ item.get_total_price }}</td>
+                                        <td></td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    {% endif %}
+                 </div>
+
+                <br>
+            
+        </div>
+        {% if order.payment_option == "P" and not order.paid %}
+        <div class="info">
+
+            <div class="plantation-checkout_summary" style="background-color: white; padding: 1rem;">
+                <h3>Order Summary</h3>
+                <br>
+                {{ order.quantity }} item(s) in Order number: {{ order.order_number }}:
+                <hr>
+                <br>
+                <div class="prices">
+                    <h3>Grand total: <span>{{ order.total_grand_price }}</span></h3>
+                </div>
+                <br>
+                <hr>
+                <br>
+                
+                    {% comment %} <button class="btn btn-outline-tertiary btn-full" type="submit" form="checkout">Proceed with payment</button> {% endcomment %}
+                    
+                    {{ form.render }}
+                </div>
+            </div>
+        {% endif %}
+
+        
+    </div>
+{% endblock content %}

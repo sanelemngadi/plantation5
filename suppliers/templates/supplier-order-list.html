@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="plantation-items_wrapper">
+    <h2 class="plantation-items_heading">
+        Recent orders
+    </h2>
+    <br>
+
+    <div class="plantation-table">
+        <table>
+            <tr>
+                <th>Item No.</th>
+                <th>Supplier</th>
+                <th>#Items</th>
+                <th>Order from</th>
+                <th></th>
+            </tr>
+
+            {% if user.is_admin or user.is_superuser %}
+                {% for order in orders %}
+                        <tr>
+                            <td>{{ forloop.counter }} 
+                                {% if order.accepted and order.delivered %}
+                                    <a href="{% url 'supplier-order-invoice' order.pk %}" class="plantation-link">invoice</a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ order.supplier }}
+                            </td>
+                            <td>{{ order.items.count }}</td>
+                            <td>{{ order.user.get_name }}</td>
+                            <td>
+                                {% if order.accepted and not order.delivered %}
+                                Order accepted pending for delivery
+                                {% endif %}
+
+                                {% if order.accepted and order.delivered %}
+                                Paid and delivered
+                                {% endif %}
+
+                                {% if not order.accepted and not order.delivered %}
+                                Waiting for supplier
+                                {% endif %}
+                            </td>
+                        </tr>
+                {% endfor %}
+            {% endif %}           
+
+        </table>
+    </div>
+</div>
+{% endblock %}

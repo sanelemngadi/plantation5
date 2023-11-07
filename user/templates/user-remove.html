@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}    
+    <h2 class="plantation-service_heading">Remove User</h2>
+    <br><br>
+    <h4 style="color: red;">Are you sure you want to remove <b style="color: black; text-decoration: underline;">{{ user.get_name }}</b> from your list?</h4>
+    <br>
+    <br>
+    <p>Please note that this user will receive an email that they are no longer part of this systen</p>
+    <br>
+    <form action="." method="post">
+        {% csrf_token %}
+        <a href="{% url 'manage-users' %}" class="btn btn-secondary">No take me back</a>
+        <button type="submit" class="btn btn-outline-danger">Yes remove</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ event.title | title }}</h2>
+<p>By: {{ event.user.first_name | title }} {{ event.user.last_name | title }}</p>
+{% comment %} <br> {% endcomment %}
+<p>On: {{ event.date }}</p>
+<p>At: {{ event.location }}</p>
+
+<br>
+<b>Description: </b>
+<p>{{ event.description }}</p>
+
+<br>
+<hr>
+<br>
+{% comment %} {% if user.is_admin %}
+
+    <form action="." method="post" style="max-width: 500px; margin: 2rem 0; border: 1px solid gray; border-radius: .5rem; padding: 2rem;">
+        {% csrf_token %}
+        
+        <h2>Attendance Register</h2>
+
+        {% for notification in notifications %}
+            <div class="form-check" style="justify-content: space-between;">
+                <label for="vip"> {{ notification.user.get_name }}</label>
+                <input type="checkbox" name="{{ notification.pk }}" id="vip" {% if notification.attended %}checked{% endif %}>
+            </div>
+        {% endfor %}
+
+        <br>
+        <button class="btn btn-secondary btn-full">Update Attendance Register</button>
+    </form>
+
+{% endif %} {% endcomment %}
+
+{% if not accepted and not event.paid %}
+ <form action="." method="post">
+    {% csrf_token %}
+
+    <p>Prices:</p>
+    <p>General: {{ event.general_price }}</p>
+    <p>VIP: {{ event.vip_price }}</p>
+    <br>
+    <div class="form-control">
+        {{ event_form.ticket.errors }}
+        {{ event_form.ticket.label_tag }}
+        {{ event_form.ticket }}
+    </div>
+
+    <br>
+    <input type="submit" value="RSVP" class="btn btn-secondary">
+ </form>
+ {% else %}
+ {% if user.is_general %}
+ <p>You chose: {% if general %}General {% else %}VIP {% endif %} ticket</p>
+ <p>For amount: {{ price }}</p>
+
+ {{ paypal_form.render }}
+ {% endif %}
+ {% endif %}
+
+ <h3>Please note that after paying for an event an image will show one, failure to download will result in you paying for it twice</h3>
+
+{% endblock content %}

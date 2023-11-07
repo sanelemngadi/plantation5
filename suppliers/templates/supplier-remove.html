@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}    
+    <h2 class="plantation-service_heading">Remove Supplier</h2>
+    <br><br>
+    <h4 style="color: red;">Are you sure you want to remove <b style="color: black; text-decoration: underline;">{{ supplier.company_name }}</b> Supplier in your system?</h4>
+    <br>
+    <br>
+    <form action="." method="post">
+        {% csrf_token %}
+        <a href="{% url 'suppliers' %}" class="btn btn-secondary">No take me back</a>
+        <button type="submit" class="btn btn-outline-danger">Yes remove</button>
+    </form>
+{% endblock %}

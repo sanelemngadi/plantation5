@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="plantation-events">
+        <h2 class="plantation-event_heading">Create new Product:</h2>
+        {% comment %} <h2>Supplier: {{ service.title }}</h2> {% endcomment %}
+
+       {% if not products %}
+       
+        <h3>There are no Suppliers to for the creation of products</h3>
+
+        {% else %}
+
+        <form action="." method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="form-control">
+                    {{ form.name.errors }}
+                    {{ form.name.label_tag }}
+                    {{ form.name }}
+                </div>
+                <div class="form-control">
+                    {{ form.supplier.errors }}
+                    {{ form.supplier.label_tag }}
+                    {{ form.supplier }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-control">
+                    {{ form.price.errors }}
+                    {{ form.price.label_tag }}
+                    {{ form.price }}
+                </div>
+    
+                <div class="form-control">
+                    {{ form.rent_price.errors }}
+                    {{ form.rent_price.label_tag }}
+                    {{ form.rent_price }}
+                </div>
+                <div class="form-control">
+                    {{ form.discount_percentage.errors }}
+                    {{ form.discount_percentage.label_tag }}
+                    {{ form.discount_percentage }}
+                </div>
+            </div>
+
+            <div class="form-control">
+                {{ form.description.errors }}
+                {{ form.description.label_tag }}
+                {{ form.description }}
+            </div>
+            <div class="form-control">
+                {{ form.image.errors }}
+                {{ form.image.label_tag }}
+                {{ form.image }}
+            </div>
+            <div class="form-check">
+                {{ form.available.errors }}
+                {{ form.available.label_tag }}
+                {{ form.available }}
+            </div>
+
+            <input type="submit" value="Submit" class="btn btn-tertiary btn-full">
+        </form>
+       {% endif %}
+    </div>
+{% endblock %}

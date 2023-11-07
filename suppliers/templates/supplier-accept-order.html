@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    <h2 class="plantation-service_heading">{{ supplier.name }} - Supplier</h2>
+    <br>
+    <br><br>
+    <form action="." method="post">
+        {% csrf_token %}
+        <input type="submit" value="Accept">
+    </form>
+    <br><br>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Update user</h2>
+    <br><br>
+
+    <form action="." method="post">
+        {% csrf_token %}
+
+        {% comment %} {{ form.as_p }} {% endcomment %}
+
+        <div class="form-check">
+            {{ form.role.errors }}
+            {{ form.role.label_tag }}
+            {{ form.role }}
+        </div>
+
+        <br>
+        <input type="submit" value="Update User" class="btn btn-outline-tertiary">
+    </form>
+{% endblock content %}

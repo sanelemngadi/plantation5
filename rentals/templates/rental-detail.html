@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Hello</h2>
+{% if user.is_admin or user.is_superuser %}
+    <br>
+    <p>{{ rental.user.get_name }} sent a new request to lend our item with the following information: </p>
+    <br>
+{% endif %}
+
+<ul class="status">
+    <li class="{% if rental.paid %}fullfilled{% endif %}">
+        <span>1</span>
+        <a href="#" class="btn btn-outline-tertiary">Payment</a>
+    </li>
+    <li class="{% if rental.paid %}fullfilled{% endif %}">
+        <span>2</span>
+        {% if rental.paid %}
+            <a href="#" class="btn btn-outline-tertiary">Verified</a>
+            {% else %}
+            <p class="btn">Verified</p>
+        {% endif %}
+    </li>
+    <li class="{% if rental.paid and rental.pending %}fullfilled{% endif %}">
+        <span>3</span>
+        {% if rental.paid and rental.pending %}
+            <a href="#" class="btn btn-outline-tertiary">Pending</a>
+            {% else %}
+            <p class="btn">Verified</p>
+        {% endif %}
+    </li>
+    <li class="{% if rental.collected %}fullfilled{% endif %}">
+        <span>4</span>
+        {% if rental.paid and rental.verified %}
+            <a href="#" class="btn btn-outline-tertiary">Collect</a>
+            {% else %}
+            <p class="btn">Collect</p>
+        {% endif %}
+    </li>
+    <li class="{% if rental.returned %}fullfilled{% endif %}">
+        <span>5</span>
+        {% if rental.paid and rental.verified and rental.collected %}
+            <a href="#" class="btn btn-outline-tertiary">Return</a>
+            {% else %}
+            <p class="btn">Return</p>
+        {% endif %}
+    </li>
+</ul>
+<br><br>
+
+{% if rental.verified and user.is_admin and not rental.collected %}
+    <a href="{% url 'rental-collected' rental.pk %}" class="btn btn-secondary">Mark Item as Collected</a>
+    <br>
+{% endif %}
+
+{% if rental.collected and user.is_admin and not rental.returned %}
+    <a href="{% url 'rental-returned' rental.pk %}" class="btn btn-secondary">Mark Item as Return</a>
+    <br>
+{% endif %}
+
+
+{% comment %} {% if user.is_staff or user.is_superuser %} {% endcomment %}
+
+<br>
+
+<h3>Item information:</h3>
+<br>
+<p>Name: <b>{{ rental.product.name | title }}</b></p>
+<p>For: {{ rental.count_days }} {% if rental.count_days == 1 %}day {% else %}days{% endif %}</p>
+<p>From: {{ rental.date_from }}</p>
+<p>Until: {{ rental.date_to }}</p>
+
+<br>
+<hr>
+<br>
+
+{% if user.is_admin or user.is_superuser %}
+    <h3>Customer information</h3>
+    <br>
+    <p>Name: {{ rental.user.get_name }}</p>
+    <p>Email: {{ rental.user.email }}</p>
+    <p>Reason: {{ rental.reason }}</p>
+    <br>
+{% endif %}
+
+
+{% if rental.paid %}
+    <h4>Hi Thank you for renting our product.</h4>
+    {% if rental.id_image and rental.proof_of_residence %}
+        <h3>User documents</h3>
+        <br>
+        <div class="images" style="max-width: 700px; display: flex; overflow: hidden; gap: 1rem;">
+            <div class="image1" style="flex: 1;">
+                <img src="{{ rental.id_image.url }}" alt="" style="width: 100%; object-fit: cover;">
+            </div>
+            <div class="image1" style="flex: 1;">
+                <img src="{{ rental.proof_of_residence.url }}" alt="" style="width: 100%; object-fit: cover;">
+            </div>
+        </div>
+        <br><br>
+
+        {% if not rental.collected %}
+            <h3>Item is ready for collection</h3>
+        {% endif %}
+    {% endif %}
+    {% comment %} {% if rental.verified %}
+    
+    {% endif %} {% endcomment %}
+    <br>
+{% endif %}
+
+
+
+{% if rental.paid and not rental.verified and not rental.pending and not user.is_admin %}
+    <br>
+    <p>Please Verify your Identity</p>
+    <br>
+    <form action="." method="post" style="max-width: 500px;" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <div class="form-control">
+                {{ rental_form.id_image.errors }}
+                {{ rental_form.id_image.label_tag }}
+                {{ rental_form.id_image }}
+            </div>
+    
+            <div class="form-control">
+                {{ rental_form.proof_of_residence.errors }}
+                {{ rental_form.proof_of_residence.label_tag }}
+                {{ rental_form.proof_of_residence }}
+            </div>
+        </div>
+        <br><br>
+        <input type="submit" value="Verify Identity" class="btn btn-secondary btn-full">
+    </form>
+{% endif %}
+
+{% if not rental.paid and user.is_general and not user.is_admin and not user.is_superuser %}
+    {{ form.render }}
+{% endif %}
+
+
+<br>
+{% if user.is_admin or user.is_superuser %}
+    {% if not rental.verified and rental.pending %}
+        <a href="{% url 'rental-reject' rental.pk %}" class="btn btn-danger">Reject, Request clear documents </a>
+        <a href="{% url 'rental-verify' rental.pk %}" class="btn btn-outline-secondary">Accept Documents Verified</a>
+    {% endif %}
+    <br>
+{% endif %}
+
+{% if user.is_general and rental.pending and not rental.verified and not user.is_admin and not user.is_superuser %}
+    <br>
+    <h3>Pending for verification, Please wait...</h3>
+    <br>
+{% endif %}
+
+{% comment %} is paid {{ rental.paid }} {% endcomment %}
+
+{% endblock content %}

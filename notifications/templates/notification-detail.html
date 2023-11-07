@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% comment %} {% load static %} {% endcomment %}
+
+{% block content %}
+
+<p><b>From:</b> {{ notification.notification.notification_from }}</p>
+<p><b>To:</b> Me</p>
+<p>{{ notification.date_time }}</p>
+
+<br>
+<p><b>Message:</b></p>
+
+<p style="max-width: 400px; line-height: 24px"><pre>{{ notification.notification.message }}</pre></p>
+{% endblock content %}

@@ -1,0 +1,378 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+:root {
+    // --color-primary: #000;
+    --color-primary: #EDF2F9;
+    // --color-secondary: #000;
+    --color-secondary: #5E6E82;
+    --color-tertiary: #2C7BE5;
+    --color-danger: red;
+    --canvas-shadow: 0px 4px 8px rgba(0,0,0,0.25)
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    width: 100%;
+    height: 100vh;
+}
+
+main {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #5E6E82;
+}
+
+.plantation-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.plantation-header{
+    height: 48px;
+    // border: 1px solid blue
+}
+
+.plantation-container {
+    width: 100%;
+    height: calc(100% - 48px);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.plantation-leftpanel {
+    height: calc(100vh - 48px);
+    // border: 1px solid black;
+    position: absolute;
+    width: 90vw;
+    display: none;
+
+    @media screen and (min-width: 768px) {
+        width: 256px;
+        position: relative;
+        display: block;
+    }
+
+    li {
+        a{ 
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+    }
+   
+}
+
+.plantation-canvas {
+    width: 100%;
+    height: 100%;
+    // border: 1px solid red;
+    padding: 1rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-bottom: 4rem;
+}
+
+.plantation-options_item {
+    // border: 1px solid red;
+    margin-bottom: .5rem;
+
+    .plantation-options_header {
+        height:  32px;
+        display: flex;
+        align-items: center;
+
+        a{ 
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .plantation-name {
+            flex: 1;
+            height: 100%;
+
+            &:hover {
+                color: var(--color-tertiary);
+            }
+        }
+        
+        .plantation-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .plantation-dropdown {
+            height: 24px;
+            width: 24px;
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            // border: 1px solid black;
+        }
+    }
+
+    li:hover,  .plantation-options_header:hover {
+        color: #000;
+        cursor: pointer;
+    }
+
+    &.plantation-active {
+        .plantation-child_items {
+            height: auto;
+            transition: height 0.35s ease-in-out;
+        }
+
+        .plantation-options_header {
+            .plantation-dropdown svg {
+                transform: rotate(180deg);
+                transition: all 0.15s ease-in-out;
+            }
+        }
+    }
+
+    .plantation-child_items {
+        height: 0;
+        overflow: hidden;
+        transition: all 0.35s ease-in-out;
+
+        li {
+            height: 32px;
+            // border: 1px solid green;
+            display: flex;
+            align-items: center;
+            padding-left: 24px;
+
+            &.plantation-active {
+                color: #2C7BE5;
+            }
+        }
+    }
+}
+
+.plantation-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    nav {
+        display: block;
+        width: 100%;
+    }
+
+    .plantation-header_items {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .plantation-alert {
+            // background-color: blue;
+            position: relative;
+
+            &::after {
+                content: "";
+                display: flex;
+                position: absolute;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: #2C7BE5;
+                right: 0;
+                top: 0;
+            }
+        }
+    }
+
+    .plantation-icon {
+        width: 32px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+    }
+
+    .plantation-rent {
+        text-decoration: none;
+        padding: .25rem .5rem;
+        background-color: #2C7BE5;
+        border-radius: .25rem;
+        //max-height: 24px;
+        height: 100%;
+        display: block;
+        color: white;
+
+        &:hover {
+            background-color: darken(#2C7BE5, 20);
+        }
+
+        &:active {
+            background-color: darken(#2C7BE5, 40);
+        }
+    }
+
+    .plantation-search {
+        display: none;
+        input {
+            height: 100%;
+            width: 35vw;
+            border-radius: 50px;
+            height: 32px;
+        }
+    }
+}
+
+@import "utils";
+@import "events";
+@import "takenitems";
+@import "cart";
+
+.plantation-card_wrapper {
+    display: grid;
+    flex-direction: column;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+    margin-top: 2rem;
+
+    @media screen and (min-width: 768px) {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    @media screen and (min-width: 992px) {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+.plantation-card {
+    height: 120px;
+    max-width: 356px;
+    background-color: white;
+    box-shadow: 0px 2px 8px rgab(0,0,0,0.25);
+    border-radius: .5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    max-width: 540px;
+
+    .plantation-image {
+        width: 120px;
+        background-color: #2C7BE5;
+        height: 100%;
+    }
+
+    .plantation-info {
+        flex: 1;
+        padding: 1rem;
+        max-width: 250px;
+
+        a{
+            display: inline-block;
+            color: #2C7BE5;
+            margin-top: .5rem;
+        }
+    }
+}
+
+.plantation-checkout_summary {
+    max-width: 256px ;
+    border: 1px solid var(--color-secondary);
+    margin: 1rem auto;
+    padding: .5rem;
+
+    border-radius: .25rem;
+    .prices > *{
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: .25rem;
+    }
+}
+
+.invoice-container {
+    background-color: #EDF2F9; 
+    
+    width: 800px; 
+    border: 1px solid var(--color-secondary); 
+    margin: 2rem auto; 
+    padding: 1rem; 
+    background-color: #fff;
+    padding-bottom: 15rem;
+    // border-radius: .5rem;
+    // box-shadow: var(--canvas-shadow);
+
+    th, tr {
+        padding: 1rem;
+        text-align: left;
+    }
+
+    td {
+        padding: .5rem 1rem;
+        text-align: left;
+    }
+
+    @media screen and (min-width: 992px) {
+        .container {
+            max-width: 70vw; 
+        }
+    }
+}
+
+// #2C7BE5
+
+
+@import "inventory";
+
+.plantation-tab_name {
+    position: relative;
+
+    &.plantation-active::after {
+        content: var(--items);
+        display: inline-flex; 
+        width: 16px; 
+        height: 16px; 
+        background-color: var(--color-secondary); 
+        border-radius: 50%; 
+        margin-left: 16px; 
+        color: white; 
+        font-size: 9px; 
+        font-weight: 700; 
+        align-items: center; 
+        justify-content: center;
+
+        position: absolute;
+        right: -50px;
+        top: 50%;
+        transform: translateY(-50%);
+        // color: black;
+    }
+}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="plantation-cart">
+
+
+    {% if not cart %}
+        <div>
+            <h3>Cart</h3>
+            <p>No items in this cart, start shopping to add more items</p>
+        </div>
+    {% else %}
+    <div class="plantation-cart_detail">
+        <div class="plantation-cart_wrapper">
+            {% comment %} <h2>Cart</h2> {% endcomment %}
+
+            
+            {% for product in  cart.items.all %}
+                <div class="plantation-cart_card" style="display: flex;">
+                    <div class="plantation-cart_info">
+                       <div style="display: flex;">
+                            <div class="plantation-product_image" style="max-width: 120px; width: 100%; height: 100%; overflow: hidden; max-height: 100%;">
+                                {% if product.product.image.url %}
+                                    <img src="{{ product.product.image.url }}" width="450" style="width: 100%; height: 100%; object-fit: cover;" alt="Image">
+                                {% endif %}
+                            </div>
+
+
+                            <div>
+                                <h2>{{ product.product.name }}</h2>
+                                <p>Price: <b>{{ product.product.price }}</b></p>
+                                <p>Items in stock: {{ product.product.stock }}</p>
+                            </div>
+                       </div>
+                        
+                        <div class="plantation-cart_cta">
+                            <a href="{% url 'remove-cart-item' product.product.pk %}" class="btn btn-primary">Remove</a>
+                            <form action="{% url 'update-cart' product.product.pk %}" method="post">
+                                {% csrf_token %}
+                                
+                                <label for="">Quantity:
+                                    <input type="number" name="quantity" id="quantity" min="1" max="{{ product.product.stock }}" value="{{ product.quantity }}" >
+                                </label>
+                                <button type="submit" class="btn btn-primary">Update price</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+
+
+
+    </div>
+    <div class="plantation-cart_checkout">
+        <div class="plantation-cart_summary">
+            <h3 class="head">Cart Summary</h3>
+            <p><b>Total:</b> ({{ cart.get_total_items}} items) <b style="font-size: 24px; color: #000;">R {{ cart.get_total_price }}</b></p>
+            {% if cart.get_total_items > 0 %}
+            <a href="{% url 'checkout' %}" class="btn">Proceed to Checkout</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}
+
+
+{% comment %} <div class="plantation-cart_image">
+                        <a href="#">image</a>
+                        </div> {% endcomment %}

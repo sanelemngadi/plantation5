@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="plantation-events">
+        <h2 class="plantation-event_heading">Pending Events</h2>
+
+        {% if events %}
+            <div class="plantation-event_wrapper">
+                {% for event in events %}
+                    <a href="{% url 'event' event.pk %}" class="plantation-card_link">
+                        <div class="plantation-events_card">
+                            <div class="plantation-image">
+                                <div class="plantation-calender">
+                                    <div class="plantation-date">25</div>
+                                    <div class="plantation-month">Mar</div>
+                                </div>
+                            </div>
+                            <div class="plantation-info">
+                                <h3 class="plantation-event_title">{{ event.title }}</h3>
+                                <p class="plantation-event_host">Host: Jadir Mosaic</p>
+                                <p class="plantation-event_time">Time: 11:00 AM</p>
+                                <p class="plantation-event_duration">Duration: 35mins</p>
+                                <p class="plantation-event_location">Place: 12 ribon rd, Community hall</p>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            {% if user.is_staff or user.is_superuser %}
+            <p>No events click add events in side panel to add more events</p>
+            {% else %}
+            <p>Pending events will be posted here</p>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}

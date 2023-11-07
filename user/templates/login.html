@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-contained">
+    <h2>Login</h2>
+    <br>
+
+    <h2><a href="{% url 'supplier-register' %}" class="plantation-link">Register as a Supplier</a></h2>
+    <br>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-control">
+            {{ form.username.errors }}
+            {{ form.username.label_tag }}
+            {{ form.username }}
+        </div>
+        <br>
+        <div class="form-control">
+            {{ form.password.errors }}
+            {{ form.password.label_tag }}
+            {{ form.password }}
+        </div>
+
+        <br>
+        <input type="submit" value="Login" class="btn btn-outline-tertiary btn-full">
+
+        <br>
+        <p>Don't have an account? 
+            <a href="{% url 'register' %}" style="color: blue; text-decoration: underline;">register a new account</a> 
+            or <a href="#" style="color: blue; text-decoration: underline;">you forgot password?</a>
+        </p>
+    </form>
+</div>
+{% endblock %}

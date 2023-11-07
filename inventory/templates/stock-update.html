@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="." method="post" style="max-width: 576px; margin: 1rem 0;">
+    {% csrf_token %}
+    <h2 class="plantation-service_heading">Stock Storage</h2>
+    <br><br>
+
+    
+    <span style="color: red !important; font-size: 10px; display: block;">{{ form.product.errors }}</span>  
+    <span style="color: red !important; font-size: 10px; display: block;">{{ form.row.errors }}</span>
+    <span style="color: red !important; font-size: 10px; display: block;">{{ form.shelf.errors }}</span>
+    <span style="color: red !important; font-size: 10px; display: block;">{{ form.quantity.errors }}</span>
+    <div class="form-group">
+            <div class="form-control">
+                {{ form.product.label_tag }}
+                {{ form.product }}
+            </div>
+            <div class="form-control">
+                {{ form.quantity.label_tag }}
+                {{ form.quantity }}
+            </div>
+            <div class="form-control">
+                {{ form.row.label_tag }}
+                {{ form.row }}
+            </div>
+            <div class="form-control">
+                {{ form.shelf.label_tag }}
+                {{ form.shelf }}
+            </div>
+            <div class="form-" style="align-self: flex-end;">
+                <input type="submit" value="Update" class="btn btn-tertiary">
+            </div>
+        </div>
+        
+    </form>
+{% endblock content %}

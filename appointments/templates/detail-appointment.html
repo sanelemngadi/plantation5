@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ appointment.title | title }}</h2>
+<p>By: {{ appointment.user.first_name | title }} {{ appointment.user.last_name | title }}</p>
+<p>On: {{ appointment.date }}</p>
+<p>At: {{ appointment.location }}</p>
+
+<br>
+{% if not appointment.assigned %}
+
+{% if user.is_admin or user.is_superuser %}
+    <form action="." method="post">
+        {% csrf_token %}
+
+        <h4>Assign Fumigator</h4>
+
+        {% comment %} {{ form.as_p }} {% endcomment %}
+        <div class="form-control">
+            {{ form.fumigator.errors }}
+            {{ form.fumigator.label_tag }}
+            {{ form.fumigator }}
+        </div>
+
+        <br>
+        <input type="submit" value="Assign" class="btn btn-outline-tertiary">
+    </form>
+{% endif %}
+
+{% if user.is_staff %}
+    <a href="#" class="btn btn-outline-tertiary btn-sm">Task completed</a>
+{% endif %}
+
+{% else %}
+    <h4>Fumigator: {{ appointment.fumigator.get_name }}</h4>
+{% endif %}
+
+{% endblock content %}

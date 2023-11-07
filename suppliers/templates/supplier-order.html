@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="plantation-items_wrapper">
+    <h2 class="plantation-items_heading">
+        Recent orders
+    </h2>
+    <br>
+
+    <div class="plantation-table">
+        <table>
+            <tr>
+                <th>Item No.</th>
+                <th>Quantity</th>
+                <th>Number of Items</th>
+                <th>Price</th>
+                {% comment %} <th>Status</th> {% endcomment %}
+                {% if user.is_supplier %}
+                <th>Settled</th>
+                {% endif %}
+            </tr>
+          
+
+            {% if user.is_supplier %}
+                {% for order in orders %}
+                    <tr>
+                        <td>
+                            {{ forloop.counter }} 
+                            {% if not order.accepted %}
+                            <a href="{% url 'supplier-order-accept' order.pk %}" class="plantation-link">View</a>
+                            {% endif %}
+                        </td>
+                        <td>{{ order.quantity }}</td>
+                        <td>{{ order.items.count }}</td>
+                        <td>{{ order.get_gross_total }}</td>
+
+                        {% if user.is_supplier %}
+                        <td>
+                            {% if not order.accepted %}
+                                Waiting for your response
+                                {% else %}
+                                <form action="." method="post">
+                                    {% csrf_token %}  
+                                    
+                                    <input type="hidden" name="stock_id" id="stock_id" value="{{ order.pk }}">
+    
+                                    {% if order.delivered %}
+                                    <input type="checkbox" name="settled" id="settled" checked disabled>
+                                    {% else %}
+                                    <input type="submit" value="Deliver" class="btn btn-outline-tertiary btn-sm">
+                                    {% endif %}
+                                </form>
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            {% endif %}       
+        </table>
+    </div>
+</div>
+{% endblock %}

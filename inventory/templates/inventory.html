@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Inventory</h2>
+
+<div class="plantation-inventory">
+    <div class="plantation-notebook">
+        <div class="plantation-notebook_tabs">
+            <a href="#stock-order" class="plantation-active">Stock Order</a>
+            <a href="#storage">Stock Storage</a>
+         </div>
+
+         <div class="plantation-notebook_body">
+            <div id="stock-order" class="plantation-active">
+                {% include "stock-order.html"  %}
+            </div>            
+            <div id="storage">                
+                {% include "stock-storage.html"  %}
+            </div>
+         </div>
+    </div>
+    
+</div>
+{% endblock content %}

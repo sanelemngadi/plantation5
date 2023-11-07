@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}    
+    <h2 class="plantation-service_heading">Confirm Order</h2>
+    <br><br>
+    <h3>Process Order</h3>
+    <br>
+          
+    <div class="plantation-items_wrapper">
+
+        <div class="plantation-table" style="width: 100%;">
+            <br>
+            <h2>Placed orders</h2>
+            <br>
+            <table>
+                <tr>
+                    <th>Product</th> 
+                    <th>Amount</th>
+                    <th>Quantity</th>
+                </tr>
+                
+                {% for item in order.items.all %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>R{{ item.price }} </td>
+                        <td>{{ item.quantity }}</td>
+                    </tr>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <br>
+        <form action="." method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-secondary">Accept order</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

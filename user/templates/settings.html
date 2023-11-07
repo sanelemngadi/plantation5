@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Settings</h2>
+
+    <div class="plantation-settings">
+        <div class="user">
+            <h3>Name: {{ user.first_name }} {{ user.last_name }}</h3>
+
+            <p>Role: {% if user.is_admin or user.is_superuser %} Admin {% else %} Customer {% endif %}</p>
+            <br>
+            <br>
+            <a href="{% url 'main:main' %}" class="btn btn-outline-tertiary">Take me home</a> 
+            
+            {% if user.is_authenticated and user.is_supplier %}
+            <a href="{% url 'supplier-update' %}" class="btn btn-tertiary">Edit Profile</a> 
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

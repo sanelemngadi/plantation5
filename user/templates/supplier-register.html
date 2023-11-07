@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-contained">
+    <h2>Register</h2>
+<br>
+    <form {% if as_admin %}action="/users/register/?as_admin=me/"{% else %}action="."{% endif %} method="post" >
+        {% csrf_token %}
+        {{ form.none_field_errors }}
+        <div class="form-group">
+            <div class="form-control">
+                {{ form.email.errors }}
+                <p>Supplier {{ form.email.label_tag }}</p>
+                {{ form.email }}
+            </div>
+            <div class="form-control">
+                {{ supplier_form.name.errors }}
+                <p>Supplier {{ supplier_form.name.label_tag }}</p>
+                {{ supplier_form.name }}
+            </div>
+        </div>
+        
+        <br>
+        <div class="form-group">
+            <div class="form-control">
+                {{ form.first_name.errors }}
+                <p>Admin {{ form.first_name.label_tag }}</p>
+                
+                {{ form.first_name }}
+            </div>
+            <div class="form-control">
+                {{ form.last_name.errors }}
+                <p>Admin {{ form.last_name.label_tag }}</p>
+                
+                {{ form.last_name }}
+            </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <div class="form-control">
+                {{ form.password1.errors }}
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+            </div>
+            <div class="form-control">
+                {{ form.password2.errors }}
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+            </div>
+        </div>
+
+        
+
+        <div class="form-group">
+            <div class="form-control">
+                {{ supplier_form.street.errors }}
+                {{ supplier_form.street.label_tag }}
+                {{ supplier_form.street }}
+            </div>
+            <div class="form-control">
+                {{ supplier_form.provice.errors }}
+                {{ supplier_form.provice.label_tag }}
+                {{ supplier_form.provice }}
+            </div>
+            <div class="form-control">
+                {{ supplier_form.telephone.errors }}
+                {{ supplier_form.telephone.label_tag }}
+                {{ supplier_form.telephone }}
+            </div>
+        </div>
+        
+
+        {% comment %} {{ supplier_form.as_p }} {% endcomment %}
+        <br>
+        <input type="submit" value="Register" class="btn btn-outline-tertiary btn-full">
+        <br>
+        <p>Have an account? <a href="{% url 'login' %}" style="color: blue; text-decoration: underline;">login now</a></p>
+    </form>
+</div>
+{% endblock %}

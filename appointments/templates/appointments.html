@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% comment %} {% include "messages/warning.html" %} {% endcomment %}
+<div class="plantation-events">
+    <h2 class="plantation-event_heading">Pending Appointments</h2>
+
+    <div class="plantation-event_wrapper">
+
+        {% if not appointments %}
+
+            {% if user.is_staff %}
+                <p>You have not been appointed to fumigate any site as yet</p>
+                {% else %}
+                <p> Your appointments will appear here</p>
+            {% endif %}
+        {% endif %}
+
+        {% if not user.is_superuser and not user.is_staff and not user.is_admin %}
+            {% for appointment in user.appointments.all %}
+                <a href="{% url "detail-appointment" appointment.pk %}" class="plantation-card_link">
+                    <div class="plantation-events_card">
+                        <div class="plantation-image">
+                            <div class="plantation-calender">
+                                <div class="plantation-date">{{ appointment.get_day }}</div>
+                                <div class="plantation-month">{{ appointment.get_month }}</div>
+                            </div>
+
+                            <span>
+                                <p> pending...</p>
+                            </span>
+                        </div>
+                        <div class="plantation-info">
+                            <h3 class="plantation-event_title">{{ appointment.title | title }}</h3>
+                            <p class="plantation-event_host">By: <span style="text-decoration: underline;">{% if appointment.fumigator %} {{ appointment.fumigator.get_name }} {% else %}not assigned{% endif %}</span></p>
+                            <p class="plantation-event_time">Cost: <b style="color: black;">R{{ appointment.get_total_price }}</b></p>
+                            <p class="plantation-event_location">
+                                Place: {{ appointment.location }}
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        {% endif %}
+
+
+        {% for appointment in appointments %}
+            <a href="{% url "detail-appointment" appointment.pk %}" class="plantation-card_link">
+                <div class="plantation-events_card">
+                    <div class="plantation-image">
+                        <div class="plantation-calender">
+                            <div class="plantation-date">{{ appointment.get_day }}</div>
+                            <div class="plantation-month">{{ appointment.get_month }}</div>
+                        </div>
+
+                        <span>
+                            <p> pending...</p>
+                        </span>
+                    </div>
+                    <div class="plantation-info">
+                        <h3 class="plantation-event_title">{{ appointment.title | title }}</h3>
+                        <p class="plantation-event_host">By: <span style="text-decoration: underline;">{% if appointment.fumigator %} {{ appointment.fumigator.get_name }} {% else %}not assigned{% endif %}</span></p>
+                        <p class="plantation-event_time">Cost: <b style="color: black;">R{{ appointment.get_total_price }}</b></p>
+                        <p class="plantation-event_location">
+                            Place: {{ appointment.location }}
+                        </p>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
